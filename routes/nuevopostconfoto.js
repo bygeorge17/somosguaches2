@@ -18,11 +18,19 @@ router.post('/', function(req, res, next) {
   form.parse(req, function (err, fields, files) {
   });
   form.on('fileBegin', function (name, file){
-    console.log("fileBegin"+file.name);
-    let nombreArchivo=file.name;
-    let dividido= nombreArchivo.split(".");
-    file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
-    campoFoto+="."+dividido[1];
+    try {
+
+      console.log("fileBegin"+file.name);
+      let nombreArchivo=file.name;
+      let dividido= nombreArchivo.split(".");
+      file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
+      campoFoto+="."+dividido[1];
+    } catch (e) {
+      res.json({error:true,message:"Algo salio mal, por favor intente de nuevo"});
+
+    } finally {
+
+    }
   });
   form.on('file', function (name, file){
     console.log("Campo Foto "+file.path);
