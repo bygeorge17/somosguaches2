@@ -13,10 +13,10 @@ router.post('/', function(req, res, next) {
 
     Usuario.findOne({usuario:req.body.usuario}).exec(function(err,registro){
       if (err) {
-        return res.json({message:'Ocurrio un erro por favor intente de nuevo'});
+        return res.json({message:'Ocurrio un erro por favor intente de nuevo',codigo:1});
       }
       if (registro) {
-        return res.json({message:'El correo electronico ya ha sido registrado'});
+        return res.json({message:'El correo electronico ya ha sido registrado, utilize uno diferente',codigo:0});
       }
       if (!registro) {
         var fechaNac=new Date(req.body.year+"-"+req.body.mes+"-"+req.body.dia);

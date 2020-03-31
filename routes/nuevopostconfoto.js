@@ -45,7 +45,7 @@ router.post('/', function(req, res, next) {
       //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
     })().then(function(){
       if (terminoconerror) {
-        return res.json({message:'Ocurrio un error por favor intente de nuevo'});
+        return res.json({message:'Ocurrio un error por favor intente de nuevo',error:terminoconerror});
       }
       return res.json({message:'publicacionGuardada',publicacion:doc});
     });
@@ -77,7 +77,7 @@ router.post('/', function(req, res, next) {
     });
   nuevaPublicacion.save(function(err,resDoc){
     if (err) {
-      terminoconerror=true;
+      terminoconerror=err;
     }
     if (resDoc) {
       doc=resDoc;
