@@ -17,13 +17,20 @@ router.post('/', function(req, res, next) {
   form.parse(req, function (err, fields, files) {
     console.log("Contenido del formulario:"+form);
   });
-  form.on('fileBegin', function (name, file){
-    let nombreArchivo=file.name;
-    let dividido= nombreArchivo.split(".");
+  form.on('fileBegin', function (name, file, err){
+try {
+  let nombreArchivo=file.name;
+  let dividido= nombreArchivo.split(".");
 
-    file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
-    console.log("fileBegin file.path"+file.path);
-    campoFoto+="."+dividido[1];
+  file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
+  console.log("fileBegin file.path"+file.path);
+  campoFoto+="."+dividido[1];
+} catch (e) {
+  res.json({error:true,message:"Algo salio mal, vuelve a intentarlo"});
+} finally {
+
+}
+
   });
   form.on('file', function (name, file){
     (async () => {
