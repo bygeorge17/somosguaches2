@@ -43,7 +43,7 @@ router.post('/', function(req, res, next) {
   console.log("El valor de fotografia"+fotografia);
   console.log("El valor del id del autor"+idAutor);
   var mensaje,ocurrioerror;
-  form.on('end', function() {
+  form.on('end', function(file) {
     condicion={_id:idAutor};
     Actualizacion={foto:campoFoto};
     Usuario.findOneAndUpdate(condicion,Actualizacion, function(err,res){
