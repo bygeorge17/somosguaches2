@@ -17,42 +17,25 @@ router.post('/', function(req, res, next) {
   form.parse(req, function (err, fields, files) {
     console.log("Contenido del formulario:"+form);
   });
+  form.on('error', function(error) { // I thought this would handle the upload error
+    return res.json({error:true,message:"Ocurrio un error por favor intenta de nuevo"});
+})
   form.on('fileBegin', function (name, file, err){
-try {
-  let nombreArchivo=file.name;
-  let dividido= nombreArchivo.split(".");
+    let nombreArchivo=file.name;
+    let dividido= nombreArchivo.split(".");
 
-  file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
-  console.log("fileBegin file.path"+file.path);
-  campoFoto+="."+dividido[1];
-} catch (e) {
-  res.json({error:true,message:"Algo salio mal, vuelve a intentarlo"});
-} finally {
-
-}
+    file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
+    console.log("fileBegin file.path"+file.path);
+    campoFoto+="."+dividido[1];
 
   });
+  form.on('aborted', () => {
+    return res.json({error:true,message:"Ocurrio un error por favor intenta de nuevo"});
+
+  });
+
   form.on('file', function (name, file){
-    (async () => {
-      console.log("comprimiendo imagen");
-      const files = await imagemin([file.path], {
-        destination: './public/images/usuarios/',
-        plugins: [
-          imageminMozjpeg({
-            quality:20,
-            progressive:true
-          }),
-          imageminPngquant({
-            quality: [0.6, 0.8]
-          })
-        ]
-      });
-      fs.unlink(file.path, function(err) {
-      });
-      //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
-    })().then(function(){
-      res.json({message:mensaje,ocurrioerror:ocurrioerror});
-    });
+
 
   });
   form.on('field', function(name, value) {
@@ -78,6 +61,26 @@ try {
         ocurrioerror=false;
       }
       console.log(res);
+    });
+    (async () => {
+      console.log("comprimiendo imagen");
+      const files = await imagemin([file.path], {
+        destination: './public/images/usuarios/',
+        plugins: [
+          imageminMozjpeg({
+            quality:20,
+            progressive:true
+          }),
+          imageminPngquant({
+            quality: [0.6, 0.8]
+          })
+        ]
+      });
+      fs.unlink(file.path, function(err) {
+      });
+      //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
+    })().then(function(){
+      res.json({message:mensaje,ocurrioerror:ocurrioerror});
     });
   });
 });
