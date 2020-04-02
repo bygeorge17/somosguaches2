@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
   });
   form.on('error', function(error) { // I thought this would handle the upload error
     return res.json({error:true,message:"Ocurrio un error por favor intenta de nuevo"});
-});
+})
   form.on('fileBegin', function (name, file, err){
     let nombreArchivo=file.name;
     let dividido= nombreArchivo.split(".");
@@ -31,33 +31,6 @@ router.post('/', function(req, res, next) {
   });
 
   form.on('file', function (name, file){
-
-
-  });
-  form.on('field', function(name, value) {
-    console.log("field"+value);
-    if (value) {
-      idAutor=value;
-    }
-  });
-  console.log("El valor de fotografia"+fotografia);
-  console.log("El valor del id del autor"+idAutor);
-  var mensaje,ocurrioerror;
-  form.on('end', function(file) {
-    condicion={_id:idAutor};
-    Actualizacion={foto:campoFoto};
-    Usuario.findOneAndUpdate(condicion,Actualizacion, function(err,res){
-      if (err) throw err;
-      if (!res) {
-        mensaje="Intene de nuevo";
-        ocurrioerror=true;
-      }
-      if (res) {
-        mensaje="Foto actualizada";
-        ocurrioerror=false;
-      }
-      console.log(res);
-    });
     (async () => {
       console.log("comprimiendo imagen");
       const files = await imagemin([file.path], {
@@ -77,6 +50,32 @@ router.post('/', function(req, res, next) {
       //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
     })().then(function(){
       res.json({message:mensaje,ocurrioerror:ocurrioerror});
+    });
+
+  });
+  form.on('field', function(name, value) {
+    console.log("field"+value);
+    if (value) {
+      idAutor=value;
+    }
+  });
+  console.log("El valor de fotografia"+fotografia);
+  console.log("El valor del id del autor"+idAutor);
+  var mensaje,ocurrioerror;
+  form.on('end', function() {
+    condicion={_id:idAutor};
+    Actualizacion={foto:campoFoto};
+    Usuario.findOneAndUpdate(condicion,Actualizacion, function(err,res){
+      if (err) throw err;
+      if (!res) {
+        mensaje="Intene de nuevo";
+        ocurrioerror=true;
+      }
+      if (res) {
+        mensaje="Foto actualizada";
+        ocurrioerror=false;
+      }
+      console.log(res);
     });
   });
 });
