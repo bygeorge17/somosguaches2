@@ -5,6 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
+const appSocket = express();
+const serverSocket = appSocket.listen(3001,console.log("Socket.io Hello Wolrd server started!"));
+
+var io = require('socket.io')(serverSocket);            //http server passed to socket.io
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -24,12 +29,19 @@ var corazon = require('./routes/corazon');
 var addfotoperfil = require('./routes/addfotoperfil');
 
 var app = express();
-
+app.use(function(req, res, next){
+res.io = io;
+next();
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-app.use(cors());
+var corsOptions = {
+  origin: '*',
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true
+}
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

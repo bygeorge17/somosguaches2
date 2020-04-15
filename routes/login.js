@@ -4,6 +4,9 @@ const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const secret = require('./config');
+          //http server passed to socket.io
+
+
 /* GET home page. */
 router.post('/', function(req, res, next) {
   Usuario.findOne({usuario:req.body.usuario}).exec(function(err, registro){

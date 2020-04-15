@@ -9,7 +9,7 @@ const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log("nuevopostconfoto");
+  console.log(req);
   var form = new formidable.IncomingForm();
   var id =new  mongoose.Types.ObjectId();
   var campoFoto=id;
@@ -17,6 +17,7 @@ router.post('/', function(req, res, next) {
   var doc={};
   form.parse(req, function (err, fields, files) {
   });
+  // console.log(form);
   form.on('fileBegin', function (name, file){
     try {
 
@@ -27,42 +28,38 @@ router.post('/', function(req, res, next) {
       campoFoto+="."+dividido[1];
     } catch (e) {
       res.json({error:true,message:"Algo salio mal, por favor intente de nuevo"});
-
     } finally {
 
     }
   });
   form.on('file', function (name, file){
     console.log("Campo Foto "+file.path);
-    (async () => {
-      console.log("comprimiendo imagen");
-      const files = await imagemin([file.path], {
-        destination: './public/images/pubs/',
-        plugins: [
-          imageminMozjpeg({
-            quality:20,
-            progressive:true
-          }),
-          imageminPngquant({
-            quality: [0.6, 0.8]
-          })
-        ]
-      });
-      fs.unlink(file.path, function(err) {
-      });
-      //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
-    })().then(function(){
-      if (terminoconerror) {
-        return res.json({message:'Ocurrio un error por favor intente de nuevo',error:terminoconerror});
-      }
-      return res.json({message:'publicacionGuardada',publicacion:doc});
-    });
+    // (async () => {
+    //   console.log("comprimiendo imagen");
+    //   const files = await imagemin([file.path], {
+    //     destination: './public/images/pubs/',
+    //     plugins: [
+    //       imageminMozjpeg({
+    //         quality:20,
+    //         progressive:true
+    //       }),
+    //       imageminPngquant({
+    //         quality: [0.6, 0.8]
+    //       })
+    //     ]
+    //   });
+    //   fs.unlink(file.path, function(err) {
+    //   });
+    //   //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
+    // })().then(function(){
+    //
+    // });
   });
   var now = new Date();
   var idAutor="";
   var txtContenido="";
   form.on('field', function(name, value) {
-    console.log("name:"+name);
+    console.log("name:"+name+"value: "+value);
     if (name=="txtPublicacion") {
       console.log("El name es txtContenido");
       txtContenido=value;
@@ -72,28 +69,37 @@ router.post('/', function(req, res, next) {
       idAutor=value;
       console.log(idAutor);
     }
-  });
-  form.on('end', function() {
-    console.log("end");
-    var nuevaPublicacion =new Publicacion({
-      _id:id,
-      contenido:txtContenido,
-      fecha:now,
-      foto:campoFoto,
-      comentarios:[],
-      autor:idAutor
-    });
-  nuevaPublicacion.save(function(err,resDoc){
-    if (err) {
-      terminoconerror=err;
+    if (name=="imgPublicacion") {
+      var base64Data = value.replace(/^data:image\/png;base64,/, "");
+      campoFoto=id+".png"
+      fs.writeFile("./public/images/pubs/"+campoFoto, base64Data, "base64", function(err) {
+        if (err) {
+          terminoconerror=err;
+        }
+        var nuevaPublicacion =new Publicacion({
+          _id:id,
+          contenido:txtContenido,
+          fecha:now,
+          foto:campoFoto,
+          comentarios:[],
+          autor:idAutor
+        });
+        nuevaPublicacion.save(function(err,resDoc){
+          if (err) {
+            terminoconerror=err;
+          }
+          if (resDoc) {
+            doc=resDoc;
+            terminoconerror=false;
+          }
+        });
+        if (terminoconerror) {
+          return res.json({message:'Ocurrio un error por favor intente de nuevo',error:terminoconerror});
+        }
+        return res.json({message:'publicacionGuardada',publicacion:doc});
+      });
     }
-    if (resDoc) {
-      doc=resDoc;
-      terminoconerror=false;
-    }
   });
-  });
-
 });
 
 module.exports = router;
