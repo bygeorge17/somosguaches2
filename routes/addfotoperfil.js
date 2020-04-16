@@ -15,7 +15,6 @@ router.post('/', function(req, res, next) {
   var fotografia="";
   var idAutor="";
   form.parse(req, function (err, fields, files) {
-    console.log("Contenido del formulario:"+form);
   });
   form.on('error', function(error) { // I thought this would handle the upload error
     return res.json({error:true,message:"Ocurrio un error por favor intenta de nuevo"});
@@ -25,7 +24,6 @@ router.post('/', function(req, res, next) {
     let dividido= nombreArchivo.split(".");
 
     file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
-    console.log("fileBegin file.path"+file.path);
     campoFoto+="."+dividido[1];
 
   });
@@ -54,7 +52,6 @@ router.post('/', function(req, res, next) {
   });
   var mensaje,ocurrioerror;
   form.on('field', function(name, value) {
-    console.log("field"+value);
     if (name=="idUsuario") {
       idAutor=value;
     }
@@ -79,7 +76,6 @@ router.post('/', function(req, res, next) {
           }
       });
       return res.json({message:mensaje,ocurrioerror:ocurrioerror});
-        console.log(res);
       });
     }
   });

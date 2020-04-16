@@ -9,7 +9,6 @@ const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log(req);
   var form = new formidable.IncomingForm();
   var id =new  mongoose.Types.ObjectId();
   var campoFoto=id;
@@ -21,7 +20,6 @@ router.post('/', function(req, res, next) {
   form.on('fileBegin', function (name, file){
     try {
 
-      console.log("fileBegin"+file.name);
       let nombreArchivo=file.name;
       let dividido= nombreArchivo.split(".");
       file.path ='./public/images/beforecompression/' + id+"."+dividido[1];
@@ -33,7 +31,6 @@ router.post('/', function(req, res, next) {
     }
   });
   form.on('file', function (name, file){
-    console.log("Campo Foto "+file.path);
     // (async () => {
     //   console.log("comprimiendo imagen");
     //   const files = await imagemin([file.path], {
@@ -59,15 +56,11 @@ router.post('/', function(req, res, next) {
   var idAutor="";
   var txtContenido="";
   form.on('field', function(name, value) {
-    console.log("name:"+name+"value: "+value);
     if (name=="txtPublicacion") {
-      console.log("El name es txtContenido");
       txtContenido=value;
-      console.log(txtContenido);
     }
     if (name=="idUsuario") {
       idAutor=value;
-      console.log(idAutor);
     }
     if (name=="imgPublicacion") {
       var base64Data = value.replace(/^data:image\/png;base64,/, "");
