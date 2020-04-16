@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 const secret = require('./config.js');
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
   const token=req.headers['x-access-token'];
-  console.log("El Token ha llegado"+token);
   if (!token || token==undefined) {
     return res.json({message:"Token Error"});
   }
@@ -20,4 +20,5 @@ router.get('/', function(req, res, next) {
     }
   });
 });
+
 module.exports = router;
