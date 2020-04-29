@@ -5,7 +5,6 @@ const Usuario = require('../models/Usuario');
 const Notificacion = require('../models/Notificacion');
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log("Body Like"+req.body.id_publicacion);
   condicion={_id:req.body.id_publicacion};
   var disliked=false;
   var idUsuario=req.body.idUsuario;
@@ -39,7 +38,6 @@ router.post('/', function(req, res, next) {
           return res.json({consultaError:'Error',message:'Ocurrio un error en la consulta con la base de datos'});
         }
         if (publicacionActualizada) {
-          console.log(publicacionActualizada);
           return res.json({message:'Ok',publicaciones:publicacionActualizada});
         }
       });

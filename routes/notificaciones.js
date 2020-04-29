@@ -6,7 +6,6 @@ const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   //console.log("Client connected!");
   socket.on('message-from-client-to-server', (msg) => {
-      console.log(msg);
   })
   socket.emit('message-from-server-to-client', 'Hello World!');
 });

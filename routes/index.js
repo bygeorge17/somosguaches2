@@ -8,7 +8,6 @@ router.get('/', function(req, res, next) {
   var usuarios;
   Usuario.count({}, function(err, count) {
     usuarios=count;
-    console.log( "Total: ", count);
     res.render('index', { title: 'Somos Guaches La red social de Tierra Caliente',usuarios:usuarios });
 });
 

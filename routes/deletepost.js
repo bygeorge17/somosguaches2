@@ -3,7 +3,6 @@ var router = express.Router();
 const Publicacion = require('../models/Publicacion');
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log(req.body);
   Publicacion.findOneAndDelete({_id:req.body.pubId}).exec(function(err,publicaciones){
     if (err) {
       return res.json({consultaError:'Error',message:'Ocurrio un error en la consulta con la base de datos'});
