@@ -3,7 +3,6 @@ var router = express.Router();
 const Publicacion = require('../models/Publicacion');
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("Body"+req.query.id);
   const populateLog = {path: 'comentarios.autor'};
   Publicacion.find({_id:req.query.id}).populate('autor').populate(populateLog).sort({fecha:'desc'}).exec(function(err,publicaciones){
     if (err) {
@@ -16,7 +15,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  console.log(req.body);
   const populateLog = {path: 'comentarios.autor'};
   Publicacion.find({_id:req.body.id}).populate('autor').populate(populateLog).sort({fecha:'desc'}).exec(function(err,publicaciones){
     if (err) {

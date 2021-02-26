@@ -63,8 +63,8 @@ router.post('/', function(req, res, next) {
       idAutor=value;
     }
     if (name=="imgPublicacion") {
-      var base64Data = value.replace(/^data:image\/png;base64,/, "");
-      campoFoto=id+".png"
+      var base64Data = value.replace(/^data:image\/jpeg;base64,/, "");
+      campoFoto=id+".jpeg"
       fs.writeFile("./public/images/pubs/"+campoFoto, base64Data, "base64", function(err) {
         if (err) {
           terminoconerror=err;

@@ -4,9 +4,7 @@ const Publicacion = require('../models/Publicacion');
 const mongoose = require('mongoose');
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log("nuevopost");
   if (req.body.txtContenido=='') {
-    console.log("no hay publicacion");
     return res.json({message:'no hay informacion que publicar',OK:false});
   }
   var id =new  mongoose.Types.ObjectId();
@@ -23,7 +21,6 @@ router.post('/', function(req, res, next) {
         return res.json({message:'Ocurrio un error por favor intente de nuevo'});
       }
       if (doc) {
-        console.log(doc);
         return res.json({message:'publicacionGuardada',publicacion:doc});
       }
     });

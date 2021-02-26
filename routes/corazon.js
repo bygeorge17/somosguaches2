@@ -3,7 +3,6 @@ var router = express.Router();
 const Publicacion = require('../models/Publicacion');
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log("Body Like"+req.body.id_publicacion);
   condicion={_id:req.body.id_publicacion};
   var hearted=false;
   var idUsuario=req.body.idUsuario;
@@ -23,7 +22,6 @@ router.post('/', function(req, res, next) {
         return res.json({consultaError:'Error',message:'Ocurrio un error en la consulta con la base de datos'});
       }
       if (publicacionActualizada) {
-        console.log(publicacionActualizada);
         return res.json({message:'Ok',publicaciones:publicacionActualizada});
       }
     });

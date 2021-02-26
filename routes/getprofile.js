@@ -6,6 +6,7 @@ const secret = require('./config.js');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+
   const token=req.headers['x-access-token'];
   if (!token || token==undefined) {
     return res.json({message:"Token Error"});

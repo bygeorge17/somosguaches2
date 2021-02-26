@@ -29,25 +29,6 @@ router.post('/', function(req, res, next) {
   });
 
   form.on('file', function (name, file){
-    // (async () => {
-    //   console.log("comprimiendo imagen");
-    //   const files = await imagemin([file.path], {
-    //     destination: './public/images/usuarios/',
-    //     plugins: [
-    //       imageminMozjpeg({
-    //         quality:20,
-    //         progressive:true
-    //       }),
-    //       imageminPngquant({
-    //         quality: [0.6, 0.8]
-    //       })
-    //     ]
-    //   });
-    //   fs.unlink(file.path, function(err) {
-    //   });
-    //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
-    // })().then(function(){
-    // });
 
   });
   var mensaje,ocurrioerror;
@@ -56,8 +37,8 @@ router.post('/', function(req, res, next) {
       idAutor=value;
     }
     if (name=="foto-perfil") {
-      var base64Data = value.replace(/^data:image\/png;base64,/, "");
-      campoFoto=id+".png"
+      var base64Data = value.replace(/^data:image\/jpeg;base64,/, "");
+      campoFoto=id+".jpeg"
       fs.writeFile("./public/images/usuarios/"+campoFoto, base64Data, "base64", function(err) {
         if (err) {
           terminoconerror=err;
