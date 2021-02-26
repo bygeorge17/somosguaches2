@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
     if (err) {
       return res.json({consultaError:'Error',message:'Ocurrio un error en la consulta con la base de datos'});
     }
-    if (publicaciones) {
+    if (usuarios) {
       return res.json({message:'Ok',usuarios});
     }
   });
