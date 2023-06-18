@@ -15,13 +15,9 @@
     "formidable": "^1.2.1",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
-    "imagemin": "^7.0.1",
-    "imagemin-jpegtran": "^6.0.0",
-    "imagemin-mozjpeg": "^8.0.0",
-    "imagemin-pngquant": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.1",
+    "mongoose": "^5.13.14",
     "morgan": "~1.9.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.1"
   }
 }

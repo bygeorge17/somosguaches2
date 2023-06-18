@@ -3,9 +3,7 @@ var router = express.Router();
 const formidable = require('formidable');
 var mongoose = require('mongoose');
 const Usuario = require('../models/Usuario');
-const imagemin=require('imagemin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
-const imageminPngquant = require('imagemin-pngquant');
+
 const fs = require('fs');
 /* GET home page. */
 router.post('/', function(req, res, next) {
