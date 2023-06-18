@@ -6,7 +6,7 @@ const Usuario = require('../models/Usuario');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var usuarios;
-  Usuario.count({}, function(err, count) {
+  Usuario.countDocuments({}, function(err, count) {
     usuarios=count;
     res.render('index', { title: 'Somos Guaches La red social de Tierra Caliente',usuarios:usuarios });
 });
