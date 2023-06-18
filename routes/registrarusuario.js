@@ -7,7 +7,7 @@ const secret = require('./config');
 /* GET users listing. */
 router.post('/', function(req, res, next) {
   bcrypt.hash(req.body.contrasena,null,null, function(hasherr,hash){
-    if (err) {
+    if (hasherr) {
       return res.json({message:'Algo ha salido mal',hasherr});
     }
 
