@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 const secret = require('./config');
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  bcrypt.hash(req.body.contrasena,null,null, function(err,hash){
+  bcrypt.hash(req.body.contrasena,null,null, function(hasherr,hash){
     if (err) {
-      return res.json({message:'Algo ha salido mal',hashError:'error'});
+      return res.json({message:'Algo ha salido mal',hasherr});
     }
 
     Usuario.findOne({usuario:req.body.usuario}).exec(function(err,registro){
